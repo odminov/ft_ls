@@ -12,10 +12,12 @@
 
 NAME = ft_ls
 
+FLAGS = -Wall -Wextra -Werror
+
+HEADERS = ft_ls.h
+
 SRC_POW =./main.c read_dir.c
 OBJECT_POW = $(SRC_POW:.c=.o)
-
-FLAGS = -Wall -Wextra -Werror
 
 LIBS = lftprintf lft 
 
@@ -26,13 +28,16 @@ all: $(NAME)
 $(NAME) : $(OBJECT_POW)
 		make -C ./libft
 		gcc -o $(NAME) $(FLAGS) $(OBJECT_POW) -L $(DIR_LIB) $(LIBS)
-%.o: %.c
+
+%.o: %.c $(HEADERS)
 		gcc $(FLAGS) -o $@ -c $<
+
 clean:
-		make -C ./libft clean
-		/bin/rm -f $(OBJECT_POW)
+	make -C ./libft/ $@
+	/bin/rm -f $(OBJECT_POW)
+
 fclean: clean
-		rm -rf ./libft/libft.a
-		rm -rf ./libft/libftprintf.a
-		rm -f $(NAME)
+	make -C ./libft/ $@
+	rm -f $(NAME)
+
 re:		fclean all
