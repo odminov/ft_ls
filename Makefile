@@ -14,20 +14,18 @@ NAME = ft_ls
 
 FLAGS = -Wall -Wextra -Werror
 
-HEADERS = ft_ls.h
+HEADERS = ft_ls.h ./libft/libft.h ./libft/ft_printf/ft_printf.h
 
-SRC_POW =./main.c read_dir.c
+SRC_POW = main.c read_dir.c parse_permissions.c create_list.c flags.c
 OBJECT_POW = $(SRC_POW:.c=.o)
 
-LIBS = lftprintf lft 
-
-DIR_LIB = -L ./libft/
+DIR_LIB = ./libft/
 
 all: $(NAME)
 
 $(NAME) : $(OBJECT_POW)
 		make -C ./libft
-		gcc -o $(NAME) $(FLAGS) $(OBJECT_POW) -L $(DIR_LIB) $(LIBS)
+		gcc -o $(NAME) $(FLAGS) $(OBJECT_POW) $(DIR_LIB)libft.a $(DIR_LIB)ft_printf/libftprintf.a
 
 %.o: %.c $(HEADERS)
 		gcc $(FLAGS) -o $@ -c $<

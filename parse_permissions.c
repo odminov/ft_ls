@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <sys/stat.h>
 
 char	*parse_chmod(mode_t mode)
 {

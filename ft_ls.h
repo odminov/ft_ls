@@ -16,6 +16,8 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include "./libft/libft.h"
+# include "./libft/ft_printf/ft_printf.h"
 
 typedef struct	s_stat
 {
@@ -29,8 +31,20 @@ typedef struct	s_stat
 	long long	blocks;
 }				t_stat;
 
-void			read_dir(char **av);
+typedef struct	s_flag
+{
+	_Bool		a;
+	_Bool		l;
+	_Bool		R;
+	_Bool		r;
+	_Bool		t;
+}				t_flag;
+
+t_stat			**read_dir(char *path, t_flag *flags);
 char			*parse_chmod(mode_t mode);
-t_stat			**create_list(char *path);
+t_stat			**create_list(char *path, t_flag *flags);
+t_stat			**malloc_list(int elements);
+int				contain(const char *str, char c);
+t_flag			*parse_flags(char *arg);
 
 #endif

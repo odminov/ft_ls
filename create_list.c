@@ -30,7 +30,7 @@ static t_stat	*init_list(void)
 	return (temp);
 }
 
-static t_stat	**malloc_list(int elements)
+t_stat	**malloc_list(int elements)
 {
 	t_stat	**curr_dir;
 
@@ -46,10 +46,11 @@ static t_stat	**malloc_list(int elements)
 	return (curr_dir);
 }
 
-t_stat			**create_list(char *path)
+t_stat			**create_list(char *path, t_flag *flags)
 {
-	DIR		*dir;
-	int		elements;
+	DIR				*dir;
+	int				elements;
+	struct dirent	*entry;
 
 	dir = opendir(path);
 	if (!dir)
@@ -58,8 +59,12 @@ t_stat			**create_list(char *path)
 		exit(1);
 	}
 	elements = 0;
-	while (readdir(dir) != NULL)
+	while ((entry = readdir(dir)))
+	{
+		if (!flags->a && entry->d_name[0] == '.')
+			continue;
 		elements++;
+	}
 	closedir(dir);
 	return (malloc_list(elements));
 }

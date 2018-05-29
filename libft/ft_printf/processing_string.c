@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "header.h"
+#include <stdio.h>
 
 char		*proc_width(t_print *list, char *src, int len, char c)
 {

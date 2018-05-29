@@ -17,7 +17,7 @@
 #include <grp.h>
 #include <time.h>
 
-void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
+static void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 {
 	struct stat		buf;
 	struct passwd	*pass;
@@ -40,11 +40,11 @@ void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
 	curr_dir[idx]->fname = ft_strdup(name);
 	curr_dir[idx]->size = buf.st_size;
-	curr_dir[idx]->blocks += buf.st_block;
+	curr_dir[idx]->blocks += buf.st_blocks;
 	curr_dir[idx]->nlink = buf.st_nlink;
 }
 
-t_stat	**read_dir(char *path)
+t_stat		**read_dir(char *path, t_flag *flags)
 {
 	DIR				*dir;
 	t_stat			**curr_dir;
@@ -52,7 +52,7 @@ t_stat	**read_dir(char *path)
 	char			temp[2048];
 	int				i;
 
-	curr_dir = create_list(path);
+	curr_dir = create_list(path, flags);
 	dir = opendir(path);
 	if (!dir)
 	{
@@ -63,6 +63,8 @@ t_stat	**read_dir(char *path)
 	i = 0;
 	while ((entry = readdir(dir)) != NULL)
 	{
+		if (!flags->a && entry->d_name[0] == '.')
+			continue;
 		get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i);
 		ft_strcpy(temp, path);
 		i++;

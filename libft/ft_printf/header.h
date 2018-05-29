@@ -69,5 +69,6 @@ int					processing_hex(t_print *list, va_list arg);
 int					processing_oct(t_print *list, va_list arg);
 int					processing_ptr(t_print *list, va_list arg);
 void				star(t_print *list, va_list arg);
+char				*ft_strdup(const char *s1);
 
 #endif
