@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <locale.h>
+# include "../libft.h"
 
 typedef struct		s_print
 {
@@ -37,19 +38,7 @@ typedef struct		s_print
 	struct s_print	*next;
 }					t_print;
 
-int					ft_atoi(const char *str);
-int					ft_isdigit(int c);
-void				ft_strclr(char *s);
-void				*ft_memset(void *dest, int c, size_t n);
-char				*ft_strchr(const char *s, int c);
-char				*ft_strcpy(char *dst, const char *src);
-size_t				ft_strlen(const char *s);
-int					ft_strcmp(const char *s1, const char *s2);
-char				*ft_strncpy(char *dst, const char *src, size_t len);
-char				*ft_strnew(size_t size);
-char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_itoa_long(void *num, char type);
-char				*ft_strrev(char *s);
 int					my_ret(t_print *list, int ret);
 void				parse_percent(char **str, t_print *list);
 int					parse_unicode(char *str, unsigned value);
@@ -69,6 +58,5 @@ int					processing_hex(t_print *list, va_list arg);
 int					processing_oct(t_print *list, va_list arg);
 int					processing_ptr(t_print *list, va_list arg);
 void				star(t_print *list, va_list arg);
-char				*ft_strdup(const char *s1);
 
 #endif

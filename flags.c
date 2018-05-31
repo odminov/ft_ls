@@ -12,26 +12,15 @@
 
 #include "ft_ls.h"
 
-int				contain(const char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (str[i]);
-		i++;
-	}
-	return (0);
-}
-
-static t_flag	*init_flags(void)
+t_flag	*init_flags(void)
 {
 	t_flag	*tmp;
 
 	if (!(tmp = (t_flag *)malloc(sizeof(t_flag))))
+	{
+		perror("error:");
 		exit(1);
+	}
 	tmp->a = 0;
 	tmp->R = 0;
 	tmp->r = 0;
@@ -40,20 +29,30 @@ static t_flag	*init_flags(void)
 	return (tmp);
 }
 
-t_flag			*parse_flags(char *arg)
+void	parse_flags(t_flag *flags, char *arg)
 {
-	t_flag *tmp;
+	int i;
 
-	tmp = init_flags();
-	if (contain(arg, 'a'))
-		tmp->a = 1;
-	if (contain(arg, 'R'))
-		tmp->R = 1;
-	if (contain(arg, 'r'))
-		tmp->r = 1;
-	if (contain(arg, 't'))
-		tmp->t = 1;
-	if (contain(arg, 'l'))
-		tmp->l = 1;
-	return (tmp);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] == 'a')
+			flags->a = 1;
+		else if (arg[i] == 'R')
+			flags->R = 1;
+		else if (arg[i] == 'r')
+			flags->r = 1;
+		else if (arg[i] == 't')
+			flags->t = 1;
+		else if (arg[i] == 'l')
+			flags->l = 1;
+		else
+		{
+			ft_printf("\
+ft_ls: illegal option -- %c\n\
+usage: ft_ls [-Rlart] [file ...]\n", arg[i]);
+			exit(1);
+		}
+		i++;
+	}
 }

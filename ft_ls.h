@@ -12,10 +12,10 @@
 
 #ifndef FT_LS_H
 # define FT_LS_H
-# define FLAGS "ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1"
 # include <errno.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
 # include "./libft/libft.h"
 # include "./libft/ft_printf/ft_printf.h"
 
@@ -44,7 +44,9 @@ t_stat			**read_dir(char *path, t_flag *flags);
 char			*parse_chmod(mode_t mode);
 t_stat			**create_list(char *path, t_flag *flags);
 t_stat			**malloc_list(int elements);
-int				contain(const char *str, char c);
-t_flag			*parse_flags(char *arg);
+int				contains(const char *str, char c);
+t_flag			*init_flags(void);
+void			parse_flags(t_flag *flags, char *arg);
+void			get_data(char *name, char *path, t_stat **curr_dir, int idx);
 
 #endif

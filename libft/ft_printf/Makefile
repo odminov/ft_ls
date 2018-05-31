@@ -16,7 +16,7 @@ FLAGS = -Wextra -Wall -Werror
 
 HEADERS = ft_printf.h header.h
 
-SRC = ft_printf.c parse_percent.c parse_format.c valid.c del_minus.c processing_string.c my_ret.c process_int_precision.c processing_char.c proc_int.c proc_base.c ft_itoa_base.c proc_ptr.c ft_atoi.c ft_isdigit.c ft_memset.c ft_strchr.c ft_strcpy.c ft_strlen.c ft_strncpy.c ft_strnew.c ft_strjoin.c ft_itoa_long.c ft_strrev.c ft_strcmp.c ft_strclr.c ft_strdup.c
+SRC = ft_printf.c parse_percent.c parse_format.c valid.c del_minus.c processing_string.c my_ret.c process_int_precision.c processing_char.c proc_int.c proc_base.c ft_itoa_base.c proc_ptr.c ft_itoa_long.c
 
 DIR_OBJ = obj/
 

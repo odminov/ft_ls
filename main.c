@@ -1,7 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +13,7 @@
 
 void	print_long_list(t_stat **list)
 {
-	while (*list)
+	while (list && *list)
 	{
 		ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
 			(*list)->perm, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
@@ -24,7 +23,7 @@ void	print_long_list(t_stat **list)
 
 void	print_short_list(t_stat **list)
 {
-	while (*list)
+	while (list && *list)
 	{
 		ft_printf("%s\n", (*list)->fname);
 		list++;
@@ -33,30 +32,49 @@ void	print_short_list(t_stat **list)
 
 int		main(int ac, char **av)
 {
-	int		errno;
-	char	*path;
+	char	path[PATH_MAX];
 	t_stat	**list;
 	t_flag	*flags;
+	int		i;
+	int		j;
 
-	// if (ac <= 2)
-	// {
-	// 	errno = EINVAL;
-	// 	perror(av[0]);
-	// 	exit(1);
-	// }
-	if (ac > 1 && av[1][0] == '-')
-		flags = parse_flags(av[1]);
+	list = NULL;
+	flags = init_flags();
+	if (ac < 2)
+		ft_strcpy(path, ".");
 	else
-		flags = parse_flags(" ");
-	if (ac == 3)
-		path = ft_strdup(av[2]);
-	else if (ac == 2 && av[1][0] != '-')
-		path = ft_strdup(av[1]);
-	else
-		path = ft_strdup(".");
-	if (ft_strcmp(path, "/"))
-		ft_strcat(path, "/");
-	list = read_dir(path, flags);
+	{
+		i = 1;
+		while (av[i] && av[i][0] == '-')
+		{
+			if (!ft_strcmp(av[i], "--"))
+			{
+				i++;
+				break ;
+			}
+			parse_flags(flags, av[i]);
+			i++;
+		}
+		if (!av[i])
+			ft_strcpy(path, ".");
+		else
+		{
+			j = i;
+			while (av[i])
+				i++;
+			list = malloc_list(i - j);
+			i = 0;
+			while (av[j])
+			{
+				get_data(av[j], av[j], list, i);
+				i++;
+				j++;
+			}
+		}
+	}
+	// if (ft_strcmp(path, "/"))
+	// 	ft_strcat(path, "/");
+	// list = read_dir(path, flags);
 	if (flags->l)
 		print_long_list(list);
 	else
@@ -66,7 +84,6 @@ int		main(int ac, char **av)
 	// else
 	// 	ft_printf("not set darwin\n");
 	// my_free(list);
-	free(path);
 	system("leaks -quiet ft_ls");
 	return (0);
 }

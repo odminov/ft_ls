@@ -17,7 +17,7 @@
 #include <grp.h>
 #include <time.h>
 
-static void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
+void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 {
 	struct stat		buf;
 	struct passwd	*pass;
@@ -44,12 +44,12 @@ static void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	curr_dir[idx]->nlink = buf.st_nlink;
 }
 
-t_stat		**read_dir(char *path, t_flag *flags)
+t_stat	**read_dir(char *path, t_flag *flags)
 {
 	DIR				*dir;
 	t_stat			**curr_dir;
 	struct dirent	*entry;
-	char			temp[2048];
+	char			temp[PATH_MAX];
 	int				i;
 
 	curr_dir = create_list(path, flags);
