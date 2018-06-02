@@ -24,6 +24,7 @@ t_flag	*init_flags(void)
 	tmp->a = 0;
 	tmp->R = 0;
 	tmp->r = 0;
+	tmp->r_mode = 0;
 	tmp->t = 0;
 	tmp->l = 0;
 	return (tmp);
@@ -33,13 +34,16 @@ void	parse_flags(t_flag *flags, char *arg)
 {
 	int i;
 
-	i = 1;
-	while (arg[i])
+	i = 0;
+	while (arg[++i])
 	{
 		if (arg[i] == 'a')
 			flags->a = 1;
 		else if (arg[i] == 'R')
+		{
 			flags->R = 1;
+			flags->r_mode = 1;
+		}
 		else if (arg[i] == 'r')
 			flags->r = 1;
 		else if (arg[i] == 't')
@@ -49,10 +53,8 @@ void	parse_flags(t_flag *flags, char *arg)
 		else
 		{
 			ft_printf("\
-ft_ls: illegal option -- %c\n\
-usage: ft_ls [-Rlart] [file ...]\n", arg[i]);
+ft_ls: illegal option -- %c\nusage: ft_ls [-Rlart] [file ...]\n", arg[i]);
 			exit(1);
 		}
-		i++;
 	}
 }

@@ -16,12 +16,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
+# include <sys/stat.h>
 # include "./libft/libft.h"
 # include "./libft/ft_printf/ft_printf.h"
 
 typedef struct	s_stat
 {
-	char		*perm;
+	mode_t		perm;
 	char		*user;
 	char		*group;
 	unsigned	time;
@@ -36,12 +37,13 @@ typedef struct	s_flag
 	_Bool		a;
 	_Bool		l;
 	_Bool		R;
+	_Bool		r_mode;
 	_Bool		r;
 	_Bool		t;
 }				t_flag;
 
 t_stat			**read_dir(char *path, t_flag *flags);
-char			*parse_chmod(mode_t mode);
+char			*parse_perm(mode_t mode);
 t_stat			**create_list(char *path, t_flag *flags);
 t_stat			**malloc_list(int elements);
 int				contains(const char *str, char c);

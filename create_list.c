@@ -20,7 +20,7 @@ static t_stat	*init_list(void)
 	if (!(temp = (t_stat *)malloc(sizeof(t_stat))))
 		return (NULL);
 	temp->time = 0;
-	temp->perm = NULL;
+	temp->perm = 0;
 	temp->user = NULL;
 	temp->group = NULL;
 	temp->fname = NULL;
@@ -30,7 +30,7 @@ static t_stat	*init_list(void)
 	return (temp);
 }
 
-t_stat	**malloc_list(int elements)
+t_stat			**malloc_list(int elements)
 {
 	t_stat	**curr_dir;
 
@@ -56,6 +56,7 @@ t_stat			**create_list(char *path, t_flag *flags)
 	if (!dir)
 	{
 		perror("diropen");
+		ft_printf("in create path: %s\n", path);
 		exit(1);
 	}
 	elements = 0;

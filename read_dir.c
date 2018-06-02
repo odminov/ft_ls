@@ -23,19 +23,18 @@ void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	struct passwd	*pass;
 	struct group	*grp;
 
-	lstat(path, &buf);
+	if (lstat(path, &buf) < 0)
+	{
+		ft_printf("ft_ls: %s: ", path);
+		perror("");
+		return ;
+	}
 	if (!(pass = getpwuid(buf.st_uid)))
-	{
-		perror("Bad user id");
 		exit(1);
-	}
 	if (!(grp = getgrgid(buf.st_gid)))
-	{
-		perror("Bad group id");
 		exit(1);
-	}
 	curr_dir[idx]->time = buf.st_mtimespec.tv_sec;
-	curr_dir[idx]->perm = parse_chmod(buf.st_mode);
+	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
 	curr_dir[idx]->fname = ft_strdup(name);

@@ -11,17 +11,34 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include <sys/stat.h>
 
-char	*parse_chmod(mode_t mode)
+static	void	check_type(mode_t mode, char *chmod)
+{
+	if (S_ISDIR(mode))
+		*chmod = 'd';
+	else if (S_ISLNK(mode))
+		*chmod = 'l';
+	else if	(S_ISBLK(mode))
+		*chmod = 'b';
+	else if (S_ISCHR(mode))
+		*chmod = 'c';
+	else if (S_ISSOCK(mode))
+		*chmod = 's';
+	else if (S_ISFIFO(mode))
+		*chmod = 'p';
+	else
+		*chmod = '-';
+}
+
+char	*parse_perm(mode_t mode)
 {
 	int		i;
 	char	*chmod;
 
-	i = 0;
 	if (!(chmod = (char *)malloc(21)))
 		exit(1);
-	chmod[i++] = (S_ISDIR(mode)) ? 'd' : '-';
+	check_type(mode, chmod);
+	i = 1;
 	chmod[i++] = ((mode & S_IRUSR) ? 'r' : '-');
 	chmod[i++] = ((mode & S_IWUSR) ? 'w' : '-');
 	chmod[i++] = ((mode & S_IXUSR) ? 'x' : '-');

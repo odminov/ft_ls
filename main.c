@@ -11,21 +11,107 @@
 
 #include "ft_ls.h"
 
-void	print_long_list(t_stat **list)
+void	my_free(t_stat **list)
+{
+	int i;
+
+	i = 0;
+	if (list)
+	{
+		while (list[i])
+		{
+			if (list[i]->user)
+				free(list[i]->user);
+			if (list[i]->group)
+				free(list[i]->group);
+			if (list[i]->fname)
+				free(list[i]->fname);
+			free(list[i]);
+			i++;
+		}
+		free(list);
+	}
+}
+
+void	print_non_rec(t_stat **list, char mode)
 {
 	while (list && *list)
 	{
-		ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
-			(*list)->perm, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+		if (mode == 'l')
+		{
+			ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
+				parse_perm((*list)->perm), (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+		}
+		else
+		{
+			if ((*list)->fname)
+				ft_printf("%s\n", (*list)->fname);
+		}
 		list++;
 	}
 }
 
-void	print_short_list(t_stat **list)
+void	sort_print_long(t_stat **list, t_flag *flags, char *path)
 {
+	t_stat	**dir;
+	char	temp[PATH_MAX];
+
 	while (list && *list)
 	{
-		ft_printf("%s\n", (*list)->fname);
+		if ((*list)->fname)
+		{
+			ft_strcpy(temp, path);
+			ft_strcat(path, (*list)->fname);
+			if (S_ISDIR((*list)->perm) || S_ISLNK((*list)->perm))
+			{
+				ft_strcmp((*list)->fname, "/") ? ft_strcat(path, "/") : 0;
+				dir = read_dir(path, flags);
+				if (flags->r_mode)
+					printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
+				if (flags->R)
+					sort_print_long(dir, flags, path);
+				else
+					print_non_rec(dir, 'l');
+				my_free(dir);
+			}
+			else
+			{
+				ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
+					parse_perm((*list)->perm), (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+			}
+			ft_strcpy(path, temp);
+		}
+		list++;
+	}
+}
+
+void	sort_print(t_stat **list, t_flag *flags, char *path)
+{
+	t_stat	**dir;
+	char	temp[PATH_MAX];
+
+	while (list && *list)
+	{
+		if ((*list)->fname)
+		{
+			ft_strcpy(temp, path);
+			ft_strcat(path, (*list)->fname);
+			if (S_ISDIR((*list)->perm) || S_ISLNK((*list)->perm))
+			{
+				ft_strcmp((*list)->fname, "/") ? ft_strcat(path, "/") : 0;
+				dir = read_dir(path, flags);
+				if (flags->r_mode)
+					printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
+				if (flags->R)
+					sort_print(dir, flags, path);
+				else
+					print_non_rec(dir, 'm');
+				my_free(dir);
+			}
+			else
+				ft_printf("%s\n", (*list)->fname);
+			ft_strcpy(path, temp);
+		}
 		list++;
 	}
 }
@@ -41,7 +127,11 @@ int		main(int ac, char **av)
 	list = NULL;
 	flags = init_flags();
 	if (ac < 2)
-		ft_strcpy(path, ".");
+	{
+		ft_strcpy(path, "./");
+		list = malloc_list(1);
+		get_data(".", "./", list, 0);
+	}
 	else
 	{
 		i = 1;
@@ -56,7 +146,11 @@ int		main(int ac, char **av)
 			i++;
 		}
 		if (!av[i])
-			ft_strcpy(path, ".");
+		{
+			ft_strcpy(path, "./");
+			list = malloc_list(1);
+			get_data(".", "./", list, 0);
+		}
 		else
 		{
 			j = i;
@@ -70,20 +164,19 @@ int		main(int ac, char **av)
 				i++;
 				j++;
 			}
+			if (i > 1)
+				flags->r_mode = 1;
 		}
 	}
-	// if (ft_strcmp(path, "/"))
-	// 	ft_strcat(path, "/");
-	// list = read_dir(path, flags);
 	if (flags->l)
-		print_long_list(list);
+		sort_print_long(list, flags, path);
 	else
-		print_short_list(list);
-	// if (_DARWIN_FEATURE_64_BIT_INODE)
-	// 	ft_printf("set darwin\n");
-	// else
-	// 	ft_printf("not set darwin\n");
-	// my_free(list);
+		sort_print(list, flags, path);
+/*	if (_DARWIN_FEATURE_64_BIT_INODE)
+		ft_printf("set darwin\n");
+	else
+		ft_printf("not set darwin\n");
+	my_free(list); */
 	system("leaks -quiet ft_ls");
 	return (0);
 }
