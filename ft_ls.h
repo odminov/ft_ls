@@ -50,5 +50,6 @@ int				contains(const char *str, char c);
 t_flag			*init_flags(void);
 void			parse_flags(t_flag *flags, char *arg);
 void			get_data(char *name, char *path, t_stat **curr_dir, int idx);
+char			*parse_time(time_t mtime);
 
 #endif

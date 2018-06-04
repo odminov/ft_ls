@@ -11,6 +11,10 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <time.h>
+#define HALF_YEAR 15768000
+#define HALF_YEAR_BIS 15811200
+#define IS_BISSEXTILE(i) (i % 4 == 0 ? 1 : 0)
 
 static	void	check_type(mode_t mode, char *chmod)
 {
@@ -50,4 +54,50 @@ char	*parse_perm(mode_t mode)
 	chmod[i++] = ((mode & S_IXOTH) ? 'x' : '-');
 	chmod[i] = '\0';
 	return (chmod);
+}
+
+static char	*write_year(time_t mtime)
+{
+	char	*temp;
+	char	*res;
+	char	*temp2;
+
+	temp = ft_strdup(ctime(&mtime));
+	temp[10] = '\0';
+	res = ft_strdup(temp + 4);
+	temp2 = res;
+	res = ft_strjoin(res, temp + (ft_strlen(temp) - 5));
+	free(temp2);
+	res[ft_strlen(res) - 2] = '\0';
+	free(temp);
+	return (res);
+}
+
+char	*parse_time(time_t mtime)
+{
+	// time_t	curr_time;
+	// int		curr_year;
+	// char	*res;
+	// char	*temp;
+
+	return (write_year(mtime));	
+	// curr_time = time(&curr_time);
+	// temp = ft_strdup(ctime(&curr_time));
+	// curr_year = ft_atoi(temp + (ft_strlen(temp) - 5));
+	// if (IS_BISSEXTILE(curr_year))
+	// {
+	// 	if (curr_time - mtime > HALF_YEAR_BIS)
+	// 		res = write_year(mtime);
+	// 	else
+	// 		res = write_time(mtime);
+	// }
+	// else
+	// {
+	// 	if (curr_time - mtime > HALF_YEAR)
+	// 		res = write_year(mtime);
+	// 	else
+	// 		res = write_time(mtime);
+	// }
+	// free(temp);
+	// return (res);
 }

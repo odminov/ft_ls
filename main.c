@@ -35,18 +35,22 @@ void	my_free(t_stat **list)
 
 void	print_non_rec(t_stat **list, char mode)
 {
+	char	*temp;
+
 	while (list && *list)
 	{
+		temp = parse_perm((*list)->perm);
 		if (mode == 'l')
 		{
 			ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
-				parse_perm((*list)->perm), (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+				temp, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
 		}
 		else
 		{
 			if ((*list)->fname)
 				ft_printf("%s\n", (*list)->fname);
 		}
+		free(temp);
 		list++;
 	}
 }
@@ -77,7 +81,7 @@ void	sort_print_long(t_stat **list, t_flag *flags, char *path)
 			else
 			{
 				ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
-					parse_perm((*list)->perm), (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+					(*list)->perm, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
 			}
 			ft_strcpy(path, temp);
 		}
@@ -168,6 +172,7 @@ int		main(int ac, char **av)
 				flags->r_mode = 1;
 		}
 	}
+	printf("time: %s\n", parse_time((*list)->time));
 	if (flags->l)
 		sort_print_long(list, flags, path);
 	else
