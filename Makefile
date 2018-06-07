@@ -16,7 +16,7 @@ FLAGS = -Wall -Wextra -Werror
 
 HEADERS = ft_ls.h ./libft/libft.h ./libft/ft_printf/ft_printf.h
 
-SRC_POW = main.c read_dir.c parse_permissions.c create_list.c flags.c
+SRC_POW = main.c read_dir.c perm_and_time.c create_list.c flags.c
 OBJECT_POW = $(SRC_POW:.c=.o)
 
 DIR_LIB = ./libft/

@@ -36,14 +36,16 @@ void	my_free(t_stat **list)
 void	print_non_rec(t_stat **list, char mode)
 {
 	char	*temp;
+	char	*time;
 
 	while (list && *list)
 	{
 		temp = parse_perm((*list)->perm);
+		time = parse_time((*list)->time);
 		if (mode == 'l')
 		{
-			ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
-				temp, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
+			ft_printf("%s %3u %s %5s %6lld %s %s\n",
+				temp, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, time, (*list)->fname);
 		}
 		else
 		{
@@ -51,14 +53,30 @@ void	print_non_rec(t_stat **list, char mode)
 				ft_printf("%s\n", (*list)->fname);
 		}
 		free(temp);
+		free(time);
 		list++;
 	}
+}
+
+long long	add_total(t_stat **list)
+{
+	long long	total;
+
+	total = 0;
+	while (list && *list)
+	{
+		total += (*list)->total;
+		list++;
+	}
+	return (total);
 }
 
 void	sort_print_long(t_stat **list, t_flag *flags, char *path)
 {
 	t_stat	**dir;
 	char	temp[PATH_MAX];
+	char	*perm;
+	char	*time;
 
 	while (list && *list)
 	{
@@ -66,22 +84,26 @@ void	sort_print_long(t_stat **list, t_flag *flags, char *path)
 		{
 			ft_strcpy(temp, path);
 			ft_strcat(path, (*list)->fname);
-			if (S_ISDIR((*list)->perm) || S_ISLNK((*list)->perm))
+			perm = parse_perm((*list)->perm);
+			time = parse_time((*list)->time);
+			ft_printf("%s %3u %s %5s %lld %s %s\n",
+				perm, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, time, (*list)->fname);
+			free(perm);
+			free(time);
+			if (S_ISDIR((*list)->perm) || (S_ISLNK((*list)->perm) && path[ft_strlen(path) - 2] == '/'))
 			{
 				ft_strcmp((*list)->fname, "/") ? ft_strcat(path, "/") : 0;
 				dir = read_dir(path, flags);
 				if (flags->r_mode)
-					printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
-				if (flags->R)
-					sort_print_long(dir, flags, path);
-				else
+					ft_printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
+				if (!dir)
+					ft_printf("ft_ls: %s: Permission denied\n", (*list)->fname);
+				(dir && *dir) ? ft_printf("total %lld\n", add_total(dir)) : 0;
+				if (!flags->R)
 					print_non_rec(dir, 'l');
+				else
+					sort_print_long(dir, flags, path);
 				my_free(dir);
-			}
-			else
-			{
-				ft_printf("%s %3u %s %5s %6lld date  time   %s\n",
-					(*list)->perm, (*list)->nlink, (*list)->user, (*list)->group, (*list)->size, (*list)->fname);
 			}
 			ft_strcpy(path, temp);
 		}
@@ -105,7 +127,9 @@ void	sort_print(t_stat **list, t_flag *flags, char *path)
 				ft_strcmp((*list)->fname, "/") ? ft_strcat(path, "/") : 0;
 				dir = read_dir(path, flags);
 				if (flags->r_mode)
-					printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
+					ft_printf("\n%.*s:\n", (int)(ft_strlen(path) - 1), path);
+				if (!dir)
+					ft_printf("ft_ls: %s: Permission denied\n", (*list)->fname);
 				if (flags->R)
 					sort_print(dir, flags, path);
 				else
@@ -172,7 +196,6 @@ int		main(int ac, char **av)
 				flags->r_mode = 1;
 		}
 	}
-	printf("time: %s\n", parse_time((*list)->time));
 	if (flags->l)
 		sort_print_long(list, flags, path);
 	else
@@ -182,6 +205,6 @@ int		main(int ac, char **av)
 	else
 		ft_printf("not set darwin\n");
 	my_free(list); */
-	system("leaks -quiet ft_ls");
+	// system("leaks -quiet ft_ls");
 	return (0);
 }

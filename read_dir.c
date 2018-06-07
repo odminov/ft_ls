@@ -39,7 +39,7 @@ void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
 	curr_dir[idx]->fname = ft_strdup(name);
 	curr_dir[idx]->size = buf.st_size;
-	curr_dir[idx]->blocks += buf.st_blocks;
+	curr_dir[idx]->total = buf.st_blocks;
 	curr_dir[idx]->nlink = buf.st_nlink;
 }
 
@@ -55,8 +55,8 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	dir = opendir(path);
 	if (!dir)
 	{
-		perror("diropen");
-		exit(1);
+		// perror("diropen");
+		return (NULL);
 	}
 	ft_strcpy(temp, path);
 	i = 0;

@@ -25,7 +25,7 @@ static t_stat	*init_list(void)
 	temp->group = NULL;
 	temp->fname = NULL;
 	temp->size = 0;
-	temp->blocks = 0;
+	temp->total = 0;
 	temp->nlink = 0;
 	return (temp);
 }
@@ -46,18 +46,51 @@ t_stat			**malloc_list(int elements)
 	return (curr_dir);
 }
 
+// static	char	*path_error(char *path)
+// {
+// 	char	*res;
+// 	int		i;
+// 	int		j;
+// 	_Bool	end;
+
+// 	res = (char *)malloc(PATH_MAX + 1);
+// 	i = 0;
+// 	while (path[i])
+// 		i++;
+// 	j = 0;
+// 	end = 0;
+// 	while (--i >= 0)
+// 	{
+// 		if (path[i] == '/')
+// 		{
+// 			if (end)
+// 				break ;
+// 			end = 1;
+// 			continue;
+// 		}
+// 		res[j] = path[i];
+// 		j++;
+// 	}
+// 	res[j] = '\0';
+// 	return (res);
+// }
+
 t_stat			**create_list(char *path, t_flag *flags)
 {
 	DIR				*dir;
 	int				elements;
 	struct dirent	*entry;
+	// char			*temp;
 
 	dir = opendir(path);
 	if (!dir)
 	{
-		perror("diropen");
-		ft_printf("in create path: %s\n", path);
-		exit(1);
+		// temp = path_error(path);
+		// ft_strrev(temp);
+		// ft_printf("ft_ls: %s: ", temp);
+		// free(temp);
+		// perror("");
+		return (NULL);
 	}
 	elements = 0;
 	while ((entry = readdir(dir)))

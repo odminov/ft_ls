@@ -29,7 +29,7 @@ typedef struct	s_stat
 	char		*fname;
 	unsigned	nlink;
 	long long	size;
-	long long	blocks;
+	long long	total;
 }				t_stat;
 
 typedef struct	s_flag
