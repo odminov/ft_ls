@@ -66,7 +66,7 @@ static char	*write_year(time_t mtime)
 	temp[24] = '\0';
 	res = ft_strdup(temp + 4);
 	temp2 = res;
-	res[6] = '\0';
+	res[7] = '\0';
 	res = ft_strjoin(res, (temp + (ft_strlen(temp) - 5)));
 	free(temp2);
 	free(temp);

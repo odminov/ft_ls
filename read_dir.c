@@ -55,7 +55,8 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	dir = opendir(path);
 	if (!dir)
 	{
-		// perror("diropen");
+		ft_printf("readdir path: %s\n", path);
+		perror("readdir");
 		return (NULL);
 	}
 	ft_strcpy(temp, path);
@@ -64,6 +65,7 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	{
 		if (!flags->a && entry->d_name[0] == '.')
 			continue;
+		ft_strcmp(temp, "/") ? ft_strcat(temp, "/") : 0;
 		get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i);
 		ft_strcpy(temp, path);
 		i++;

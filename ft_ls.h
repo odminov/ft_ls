@@ -51,5 +51,9 @@ t_flag			*init_flags(void);
 void			parse_flags(t_flag *flags, char *arg);
 void			get_data(char *name, char *path, t_stat **curr_dir, int idx);
 char			*parse_time(time_t mtime);
+int				len_nlink(t_stat **list);
+int				len_user(t_stat **list);
+int				len_group(t_stat **list);
+int				len_size(t_stat **list);
 
 #endif
