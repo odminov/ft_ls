@@ -25,13 +25,13 @@ OBJ = $(addprefix $(DIR_OBJ), $(SRC:.c=.o))
 NAME = libftprintf.a
 
 $(DIR_OBJ)%.o:%.c $(HEADERS)
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@ -L ../ -lft 
 
 all:$(NAME)
 
 $(NAME): $(DIR_OBJ) $(OBJ)
 	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	cp $(NAME) ../	
 
 $(DIR_OBJ):
 	@mkdir $(DIR_OBJ)
@@ -41,5 +41,6 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf ../$(NAME)
 
 re: fclean all

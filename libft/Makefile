@@ -31,9 +31,8 @@ $(D_OBJ)%.o:%.c libft.h
 	@printf "%s\n" $(OBJ)
 
 $(NAME): $(D_OBJ) $(OBJ)
-	@make -C ./ft_printf
 	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@make -C ./ft_printf
 
 $(D_OBJ):
 	mkdir $@

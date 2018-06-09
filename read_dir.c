@@ -33,7 +33,12 @@ void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 		exit(1);
 	if (!(grp = getgrgid(buf.st_gid)))
 		exit(1);
-	curr_dir[idx]->time = buf.st_mtimespec.tv_sec;
+	#ifdef _DARWIN_FEATURE_64_BIT_INODE
+		curr_dir[idx]->time = buf.st_mtimespec.tv_sec;
+	#endif
+	#ifndef _DARWIN_FEATURE_64_BIT_INODE
+		curr_dir[idx]->time = buf.st_mtime;
+	#endif
 	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
