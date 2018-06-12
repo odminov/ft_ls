@@ -49,11 +49,15 @@ t_stat			**malloc_list(int elements);
 int				contains(const char *str, char c);
 t_flag			*init_flags(void);
 void			parse_flags(t_flag *flags, char *arg);
-void			get_data(char *name, char *path, t_stat **curr_dir, int idx);
+int				get_data(char *name, char *path, t_stat **curr_dir, int idx);
 char			*parse_time(time_t mtime);
 int				len_nlink(t_stat **list);
 int				len_user(t_stat **list);
 int				len_group(t_stat **list);
 int				len_size(t_stat **list);
+t_stat			**read_current(char *path);
+void			out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode);
+void			free_list(t_stat **list);
+void			buble_sort(t_stat **list, t_flag *flags);
 
 #endif

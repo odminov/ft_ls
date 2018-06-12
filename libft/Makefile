@@ -27,11 +27,11 @@ all: $(NAME)
 
 
 $(D_OBJ)%.o:%.c libft.h
-	@$(CC) $(FLAGS) -c $< -o $@
-	@printf "%s\n" $(OBJ)
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(D_OBJ) $(OBJ)
 	ar rc $(NAME) $(OBJ)
+	@printf "\x1b[32m%s compiled\n\x1b[0m\n" $(NAME)
 	@make -C ./ft_printf
 
 $(D_OBJ):

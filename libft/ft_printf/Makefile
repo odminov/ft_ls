@@ -24,14 +24,15 @@ OBJ = $(addprefix $(DIR_OBJ), $(SRC:.c=.o))
 
 NAME = libftprintf.a
 
-$(DIR_OBJ)%.o:%.c $(HEADERS)
-	$(CC) $(FLAGS) -c $< -o $@ -L ../ -lft 
-
 all:$(NAME)
+
+$(DIR_OBJ)%.o:%.c $(HEADERS)
+	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(DIR_OBJ) $(OBJ)
 	ar rc $(NAME) $(OBJ)
-	cp $(NAME) ../	
+	cp $(NAME) ../
+	@printf "\x1b[32m%s compiled\n\x1b[0m\n" $(NAME)
 
 $(DIR_OBJ):
 	@mkdir $(DIR_OBJ)

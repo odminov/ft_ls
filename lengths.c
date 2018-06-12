@@ -19,7 +19,7 @@ int		len_nlink(t_stat **list)
 	char	*temp;
 
 	longest = 0;
-	while (list && *list)
+	while (list && *list && ((*list)->fname))
 	{
 		temp = ft_itoa(((*list)->nlink));
 		if ((len = (int)ft_strlen(temp)) > longest)
@@ -35,8 +35,8 @@ int		len_user(t_stat **list)
 	int		longest;
 	int		len;
 
-	longest = 0;
-	while (list && *list)
+	longest = 4;
+	while (list && *list && ((*list)->fname))
 	{
 		if ((len = (int)ft_strlen((*list)->user)) > longest)
 			longest = len;
@@ -50,8 +50,8 @@ int		len_group(t_stat **list)
 	int		longest;
 	int		len;
 
-	longest = 0;
-	while (list && *list)
+	longest = 5;
+	while (list && *list && ((*list)->fname))
 	{
 		if ((len = (int)ft_strlen((*list)->group)) > longest)
 			longest = len;
@@ -67,8 +67,8 @@ int		len_size(t_stat **list)
 	char		*temp;
 	long long	size;
 
-	longest = 0;
-	while (list && *list)
+	longest = 5;
+	while (list && *list && ((*list)->fname))
 	{
 		size = (*list)->size;
 		temp = ft_itoa_long(&size, 's');

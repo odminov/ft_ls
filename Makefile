@@ -16,25 +16,24 @@ FLAGS = -Wall -Wextra -Werror
 
 HEADERS = ft_ls.h ./libft/libft.h ./libft/ft_printf/ft_printf.h
 
-SRC_POW = main.c read_dir.c perm_and_time.c create_list.c flags.c lengths.c
+SRC_POW = main.c read_dir.c perm_and_time.c create_list.c flags.c lengths.c out_res.c free.c sort.c
 OBJECT_POW = $(SRC_POW:.c=.o)
 
 DIR_LIB = ./libft
 
 all: $(NAME)
 
-$(NAME) : $(OBJECT_POW)		
-		gcc -o $(NAME) $(FLAGS) $(OBJECT_POW) -L $(DIR_LIB) -lftprintf -lft
-
-compile_libs:
+$(NAME): $(OBJECT_POW)
 	make -C ./libft
+	gcc -o $(NAME) $(FLAGS) $(OBJECT_POW) -L $(DIR_LIB) -lft -lftprintf
+	@printf "\x1b[32m%s compiled\n\x1b[0m\n" $(NAME)
 
-%.o: %.c compile_libs $(HEADERS)
-		gcc $(FLAGS) -o $@ -c $< -L $(DIR_LIB) -lft -lftprintf
+%.o: %.c $(HEADERS)
+	gcc $(FLAGS) -o $@ -c $<
 
 clean:
 	make -C ./libft/ $@
-	/bin/rm -f $(OBJECT_POW)
+	rm -f $(OBJECT_POW)
 
 fclean: clean
 	make -C ./libft/ $@

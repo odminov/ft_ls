@@ -17,28 +17,19 @@
 #include <grp.h>
 #include <time.h>
 
-void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
+int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 {
 	struct stat		buf;
 	struct passwd	*pass;
 	struct group	*grp;
 
 	if (lstat(path, &buf) < 0)
-	{
-		ft_printf("ft_ls: %s: ", path);
-		perror("");
-		return ;
-	}
+		return (0);
 	if (!(pass = getpwuid(buf.st_uid)))
 		exit(1);
 	if (!(grp = getgrgid(buf.st_gid)))
 		exit(1);
-	#ifdef _DARWIN_FEATURE_64_BIT_INODE
-		curr_dir[idx]->time = buf.st_mtimespec.tv_sec;
-	#endif
-	#ifndef _DARWIN_FEATURE_64_BIT_INODE
-		curr_dir[idx]->time = buf.st_mtime;
-	#endif
+	curr_dir[idx]->time = buf.st_mtime;//spec.tv_sec;
 	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
@@ -46,6 +37,7 @@ void	get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	curr_dir[idx]->size = buf.st_size;
 	curr_dir[idx]->total = buf.st_blocks;
 	curr_dir[idx]->nlink = buf.st_nlink;
+	return (1);
 }
 
 t_stat	**read_dir(char *path, t_flag *flags)
@@ -57,13 +49,8 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	int				i;
 
 	curr_dir = create_list(path, flags);
-	dir = opendir(path);
-	if (!dir)
-	{
-		ft_printf("readdir path: %s\n", path);
-		perror("readdir");
+	if (!(dir = opendir(path)))
 		return (NULL);
-	}
 	ft_strcpy(temp, path);
 	i = 0;
 	while ((entry = readdir(dir)) != NULL)
@@ -71,7 +58,8 @@ t_stat	**read_dir(char *path, t_flag *flags)
 		if (!flags->a && entry->d_name[0] == '.')
 			continue;
 		ft_strcmp(temp, "/") ? ft_strcat(temp, "/") : 0;
-		get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i);
+		if (!(get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i)))
+			return (NULL);
 		ft_strcpy(temp, path);
 		i++;
 	}
