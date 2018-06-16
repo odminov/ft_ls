@@ -26,9 +26,9 @@ int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	if (lstat(path, &buf) < 0)
 		return (0);
 	if (!(pass = getpwuid(buf.st_uid)))
-		exit(1);
+		return (0);
 	if (!(grp = getgrgid(buf.st_gid)))
-		exit(1);
+		return (0);
 	curr_dir[idx]->time = buf.st_mtime;//spec.tv_sec;
 	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
@@ -48,18 +48,24 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	char			temp[PATH_MAX];
 	int				i;
 
-	curr_dir = create_list(path, flags);
+	ft_strcpy(temp, path);
+	(temp[ft_strlen(temp) - 1] != '/') ? ft_strcat(temp, "/") : 0;
+	if (!(curr_dir = create_list(path, flags)))
+		return (NULL);
 	if (!(dir = opendir(path)))
 		return (NULL);
-	ft_strcpy(temp, path);
 	i = 0;
 	while ((entry = readdir(dir)) != NULL)
 	{
-		if (!flags->a && entry->d_name[0] == '.')
+		if (!flags->a
+		 && entry->d_name[0] == '.')
 			continue;
-		ft_strcmp(temp, "/") ? ft_strcat(temp, "/") : 0;
+		(temp[ft_strlen(temp) - 1] != '/') ? ft_strcat(temp, "/") : 0;
 		if (!(get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i)))
+		{
+			ft_printf("path: %s\n", temp);
 			return (NULL);
+		}
 		ft_strcpy(temp, path);
 		i++;
 	}

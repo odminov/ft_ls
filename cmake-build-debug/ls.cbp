@@ -80,7 +80,274 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/ahonchar/ls/test.c">
+		<Unit filename="/Users/ahonchar/ls/create_list.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/flags.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/free.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/ft_ls.h">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/lengths.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_atoi.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_bzero.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_isalnum.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_isalpha.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_isascii.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_isdigit.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_isprint.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_itoa.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstadd.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstadd_end.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstdel.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstdelone.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstiter.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstlen.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstmap.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_lstnew.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memalloc.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memccpy.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memchr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memcmp.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memcpy.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memdel.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memmove.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_memset.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/del_minus.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/ft_itoa_base.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/ft_itoa_long.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/ft_printf.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/ft_printf.h">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/header.h">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/my_ret.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/parse_format.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/parse_percent.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/proc_base.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/proc_int.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/proc_ptr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/process_int_precision.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/processing_char.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/processing_string.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_printf/valid.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putchar.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putchar_fd.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putendl.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putendl_fd.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putnbr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putnbr_fd.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putstr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_putstr_fd.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strcap.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strcat.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strchr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strclr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strcmp.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strcpy.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strdel.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strdup.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strequ.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_striter.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_striteri.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strjoin.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strlcat.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strlen.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strmap.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strmapi.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strncat.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strncmp.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strncpy.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strnequ.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strnew.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strnstr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strrchr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strrev.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strsplit.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strstr.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strsub.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_strtrim.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_swap.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_tolower.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/ft_toupper.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/libft/libft.h">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/main.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/out_res.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/perm_and_time.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/read_dir.c">
+			<Option target="ls"/>
+		</Unit>
+		<Unit filename="/Users/ahonchar/ls/sort.c">
 			<Option target="ls"/>
 		</Unit>
 		<Unit filename="/Users/ahonchar/ls/CMakeLists.txt">

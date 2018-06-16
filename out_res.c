@@ -28,7 +28,7 @@ static long long	add_total(t_stat **list)
 	return (total);
 }
 
-static void			print_dir(t_stat **list, t_flag *flags, int width[4])
+static void			print_dir(t_stat **list, t_flag *flags, int *width)
 {
 	char	*time;
 	char	*perm;
@@ -53,13 +53,16 @@ static void			print_dir(t_stat **list, t_flag *flags, int width[4])
 	}
 }
 
-static void			sort_and_out(t_stat *list, t_flag *flags, char *path, int width[4])
+void			sort_and_out(t_stat *list, t_flag *flags, char *path, int *width)
 {
 	t_stat	**dir;
+	t_stat	**head;
 	char	*perm;
 	char	*time;
+	char	*temp;
 
 	(!*path) ? ft_strcat(path, list->fname) : 0;
+	temp = ft_strdup(path);
 	if (S_ISLNK(list->perm) && flags->l && path[ft_strlen(path) - 2] != '/')
 	{
 		time = parse_time(list->time);
@@ -70,10 +73,11 @@ static void			sort_and_out(t_stat *list, t_flag *flags, char *path, int width[4]
 		return ;
 	}
 	dir = read_dir(path, flags);
+	head = dir;
 	if (flags->r_mode)
 		ft_printf("%s:\n", path);
 	if (!dir)
-		ft_printf("ft_ls: %s: %s\n", path, strerror(errno));
+		ft_printf("out res ft_ls: %s: %s\n", path, strerror(errno));
 	width[0] = len_nlink(dir);
 	width[1] = len_user(dir);
 	width[2] = len_group(dir);
@@ -81,15 +85,15 @@ static void			sort_and_out(t_stat *list, t_flag *flags, char *path, int width[4]
 	print_dir(dir, flags, width);
 	while (flags->R && dir && *dir)
 	{
+		(temp[ft_strlen(temp) - 1] != '/') ? ft_strcat(temp, "/") : 0;
 		if ((*dir)->fname && S_ISDIR((*dir)->perm))
-		{
-			!ft_strcmp(path, "/") ? 0 : ft_strcat(path, "/");
-			sort_and_out(*dir, flags, ft_strcat(path, (*dir)->fname), width);
-		}
+			sort_and_out(*dir, flags, ft_strcat(temp, (*dir)->fname), width);
 		dir++;
+		ft_strcpy(temp, path);
 	}
-	if (dir)
-		free_list(dir);
+	free(temp);
+	if (head)
+		free_list(head);
 }
 
 void	out_files(t_stat **list, t_flag *flags, int width[4])
@@ -118,8 +122,9 @@ void	out_files(t_stat **list, t_flag *flags, int width[4])
 
 void	out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode)
 {
-	int		width[4];
+	int		*width;
 
+	width = (int *)malloc(sizeof(int) * 4);
 	width[0] = len_nlink(list);
 	width[1] = len_user(list);
 	width[2] = len_group(list);
@@ -138,4 +143,5 @@ void	out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode)
 		if (flags->r_mode && list && *list && (*list)->fname)
 			ft_printf("\n");
 	}
+	free(width);
 }

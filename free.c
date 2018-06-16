@@ -21,12 +21,12 @@ void	free_list(t_stat **list)
 	{
 		while (list[i])
 		{
-			if (list[i]->user)
-				free(list[i]->user);
-			if (list[i]->group)
-				free(list[i]->group);
 			if (list[i]->fname)
 				free(list[i]->fname);
+			if (list[i]->group)
+				free(list[i]->group);
+			if (list[i]->user)
+				free(list[i]->user);
 			free(list[i]);
 			i++;
 		}

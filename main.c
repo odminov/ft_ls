@@ -49,7 +49,7 @@ t_stat	**read_args(char **av, t_flag *flags, char *path)
 	while (av[j])
 	{
 		if (!(get_data(av[j], av[j], list, i)))
-			ft_printf("ft_ls: %s: %s\n", av[j], strerror(errno));
+			ft_printf("main ft_ls: %s: %s\n", av[j], strerror(errno));
 		i++;
 		j++;
 	}
@@ -66,7 +66,6 @@ int		main(int ac, char **av)
 	_Bool	argc;
 
 	argc = 0;
-	list = NULL;
 	flags = init_flags();
 	path = ft_strnew(PATH_MAX);
 	if (ac < 2)
@@ -77,9 +76,9 @@ int		main(int ac, char **av)
 		argc = 1;
 	}
 	out_result(list, flags, path, argc);
-	// free_list(list);
-	// free(flags);
+	free_list(list);
+	free(flags);
 	free(path);
-	system("leaks -quiet ft_ls");
+	//system("leaks -quiet ft_ls");
 	return (0);
 }
