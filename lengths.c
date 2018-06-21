@@ -50,7 +50,7 @@ int		len_group(t_stat **list)
 	int		longest;
 	int		len;
 
-	longest = 5;
+	longest = 3;
 	while (list && *list && ((*list)->fname))
 	{
 		if ((len = (int)ft_strlen((*list)->group)) > longest)
@@ -67,11 +67,31 @@ int		len_size(t_stat **list)
 	char		*temp;
 	long long	size;
 
-	longest = 5;
+	longest = 0;
 	while (list && *list && ((*list)->fname))
 	{
 		size = (*list)->size;
 		temp = ft_itoa_long(&size, 's');
+		if ((len = (int)ft_strlen(temp)) > longest)
+			longest = len;
+		list++;
+		free(temp);
+	}
+	return (longest);
+}
+
+int		len_minor(t_stat **list)
+{
+	int			longest;
+	int			len;
+	char		*temp;
+	long long	minor;
+
+	longest = 0;
+	while (list && *list && ((*list)->fname))
+	{
+		minor = (long long)(*list)->minor;
+		temp = ft_itoa_long(&minor, 's');
 		if ((len = (int)ft_strlen(temp)) > longest)
 			longest = len;
 		list++;

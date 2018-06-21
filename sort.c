@@ -23,6 +23,32 @@ static void	swap_pointers(t_stat *a, t_stat *b)
 	*b = temp;
 }
 
+static void	sort_time(t_stat **list, t_flag *flags, int j)
+{
+	if (!flags->r && list[j + 1] && (list[j]->time < list[j + 1]->time))
+		swap_pointers(list[j], list[j + 1]);
+	else if (!flags->r && list[j + 1] && (list[j]->time == list[j + 1]->time))
+	{
+		if (ft_strcmp(NAME, NXT_NAME) > 0)
+			swap_pointers(list[j], list[j + 1]);
+	}
+	if (flags->r && list[j + 1] && (list[j]->time > list[j + 1]->time))
+		swap_pointers(list[j], list[j + 1]);
+	else if (flags->r && list[j + 1] && (list[j]->time == list[j + 1]->time))
+	{
+		if (ft_strcmp(NAME, NXT_NAME) < 0)
+			swap_pointers(list[j], list[j + 1]);
+	}
+}
+
+static void	sort_name(t_stat **list, t_flag *flags, int j)
+{
+	if (!flags->r && NAME && NXT_NAME && (ft_strcmp(NAME, NXT_NAME) > 0))
+		swap_pointers(list[j], list[j + 1]);
+	if (flags->r && NAME && NXT_NAME && (ft_strcmp(NAME, NXT_NAME) < 0))
+		swap_pointers(list[j], list[j + 1]);
+}
+
 void		buble_sort(t_stat **list, t_flag *flags)
 {
 	int		i;
@@ -39,15 +65,9 @@ void		buble_sort(t_stat **list, t_flag *flags)
 		while (++j < size - 1)
 		{
 			if (flags->t)
-			{
-				if (list[j]->time < list[j + 1]->time)
-					swap_pointers(list[j], list[j + 1]);
-			}
+				sort_time(list, flags, j);
 			else
-			{
-				if (NAME && (ft_strcmp(NAME, NXT_NAME) > 0))
-					swap_pointers(list[j], list[j + 1]);
-			}
+				sort_name(list, flags, j);
 		}
 	}
 }

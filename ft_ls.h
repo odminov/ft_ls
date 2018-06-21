@@ -29,6 +29,7 @@ typedef struct	s_stat
 	char		*fname;
 	unsigned	nlink;
 	long long	size;
+	unsigned	minor;
 	long long	total;
 }				t_stat;
 
@@ -55,6 +56,7 @@ int				len_nlink(t_stat **list);
 int				len_user(t_stat **list);
 int				len_group(t_stat **list);
 int				len_size(t_stat **list);
+int				len_minor(t_stat **list);
 t_stat			**read_current(char *path);
 void			out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode);
 void			free_list(t_stat **list);

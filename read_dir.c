@@ -13,6 +13,7 @@
 #include "ft_ls.h"
 #include <dirent.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <pwd.h>
 #include <grp.h>
 #include <time.h>
@@ -29,12 +30,17 @@ int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 		return (0);
 	if (!(grp = getgrgid(buf.st_gid)))
 		return (0);
-	curr_dir[idx]->time = buf.st_mtime;//spec.tv_sec;
+	curr_dir[idx]->time = buf.st_mtime; //spec.tv_sec;
 	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
 	curr_dir[idx]->fname = ft_strdup(name);
 	curr_dir[idx]->size = buf.st_size;
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
+	{
+        curr_dir[idx]->size = major(buf.st_rdev);
+        curr_dir[idx]->minor = minor(buf.st_rdev);
+    }
 	curr_dir[idx]->total = buf.st_blocks;
 	curr_dir[idx]->nlink = buf.st_nlink;
 	return (1);

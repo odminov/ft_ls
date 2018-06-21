@@ -395,6 +395,8 @@ ft_ls.h
 /Users/ahonchar/ls/out_res.c
 ft_ls.h
 /Users/ahonchar/ls/ft_ls.h
+unistd.h
+-
 
 /Users/ahonchar/ls/perm_and_time.c
 ft_ls.h
@@ -408,6 +410,8 @@ ft_ls.h
 dirent.h
 -
 sys/stat.h
+-
+sys/types.h
 -
 pwd.h
 -

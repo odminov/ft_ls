@@ -25,6 +25,7 @@ static t_stat	*init_list(void)
 	temp->group = NULL;
 	temp->fname = NULL;
 	temp->size = 0;
+	temp->minor = 0;
 	temp->total = 0;
 	temp->nlink = 0;
 	return (temp);
