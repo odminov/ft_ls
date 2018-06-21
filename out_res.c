@@ -62,7 +62,8 @@ void			sort_and_out(t_stat *list, t_flag *flags, char *path, int *width)
 	char	*temp;
 
 	(!*path) ? ft_strcat(path, list->fname) : 0;
-	temp = ft_strdup(path);
+    temp = ft_strnew(PATH_MAX);
+	ft_strcpy(temp, path);
 	if (S_ISLNK(list->perm) && flags->l && path[ft_strlen(path) - 2] != '/')
 	{
 		time = parse_time(list->time);
