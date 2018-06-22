@@ -97,5 +97,5 @@ int		len_minor(t_stat **list)
 		list++;
 		free(temp);
 	}
-	return (longest);
+	return ((longest == 1) ? 0 : longest);
 }

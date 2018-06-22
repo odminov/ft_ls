@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahonchar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/23 19:39:56 by ahonchar          #+#    #+#             */
-/*   Updated: 2018/05/23 19:39:59 by ahonchar         ###   ########.fr       */
+/*   Created: 2018/06/22 14:26:47 by ahonchar          #+#    #+#             */
+/*   Updated: 2018/06/22 14:26:49 by ahonchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_stat	**read_current(char *path)
+t_stat			**read_current(char *path)
 {
 	t_stat	**list;
 
@@ -21,25 +22,11 @@ t_stat	**read_current(char *path)
 	return (list);
 }
 
-t_stat	**read_args(char **av, t_flag *flags, char *path)
+static t_stat	**malloc_argc(char **av, t_flag *flags, int i)
 {
-	int		i;
 	int		j;
 	t_stat	**list;
 
-	i = 1;
-	while (av[i] && av[i][0] == '-' && av[i][1])
-	{
-		if (!ft_strcmp(av[i], "--"))
-		{
-			i++;
-			break ;
-		}
-		parse_flags(flags, av[i]);
-		i++;
-	}
-	if (!av[i])
-		return (read_current(path));
 	j = i;
 	while (av[i])
 		i++;
@@ -50,15 +37,31 @@ t_stat	**read_args(char **av, t_flag *flags, char *path)
 	{
 		if (!(get_data(av[j], av[j], list, i)))
 			ft_printf("ft_ls: %s: %s\n", av[j], strerror(errno));
-		i++;
 		j++;
+		i++;
 	}
 	if (i > 1)
 		flags->r_mode = 1;
 	return (list);
 }
 
-int		main(int ac, char **av)
+static t_stat	**read_args(char **av, t_flag *flags, char *path)
+{
+	int		i;
+
+	i = 0;
+	while (av[++i] && av[i][0] == '-' && av[i][1])
+	{
+		if ((ft_strcmp(av[i], "--") == 0) && i++)
+			break ;
+		parse_flags(flags, av[i]);
+	}
+	if (!av[i])
+		return (read_current(path));
+	return (malloc_argc(av, flags, i));
+}
+
+int				main(int ac, char **av)
 {
 	char	*path;
 	t_stat	**list;
@@ -79,6 +82,6 @@ int		main(int ac, char **av)
 	free_list(list);
 	free(flags);
 	free(path);
-	// system("leaks -quiet ft_ls");
+	system("leaks -quiet ft_ls");
 	return (0);
 }

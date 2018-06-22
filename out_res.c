@@ -58,72 +58,80 @@ void	read_lengths(int *width, t_stat **list)
 	width[4] = len_minor(list);
 }
 
-static void			print_dir(t_stat **list, t_flag *flags, int *width, char *path)
-{
+static void			long_out(t_stat **list, char *path, int *width)
+{	
 	char	*time;
 	char	*perm;
 	char	buf[PATH_MAX + 1];
 	int		len;
 
-	if (list && flags->l)
+	time = parse_time((*list)->time);
+	perm = parse_perm((*list)->perm);
+	if (S_ISCHR((*list)->perm) || S_ISBLK((*list)->perm))
+		ft_printf(OUT_FORMAT_MAJ, OUT_ARGS_MAJ);
+	else
+	{
+		if (S_ISLNK((*list)->perm))
+		{
+			ft_strcpy(buf, path);
+			ft_strcat(buf, "/");
+			len = readlink(ft_strcat(buf, (*list)->fname), buf, PATH_MAX);
+			buf[len] = '\0';
+			ft_printf(OUT_FORMAT_LNK, OUT_ARGS_STD, buf);
+		}
+		else
+			ft_printf(OUT_FORMAT_STD, OUT_ARGS_STD);
+	}
+	free(time);
+	free(perm);
+}
+
+static void			print_dir(t_stat **list, t_flag *flags, int *width, char *path)
+{
+	if (flags->l && list && *list && (*list)->fname)
 		ft_printf("total %lld\n", add_total(list));
 	buble_sort(list, flags);
 	while (list && *list)
 	{
 		if ((*list)->fname)
 		{
-			time = parse_time((*list)->time);
-			perm = parse_perm((*list)->perm);
 			if (flags->l)
-			{
-				if (S_ISCHR((*list)->perm) || S_ISBLK((*list)->perm))
-					ft_printf(OUT_FORMAT_MAJ, OUT_ARGS_MAJ);
-				else if (S_ISLNK((*list)->perm))
-				{
-					ft_strcpy(buf, path);
-					ft_strcat(buf, "/");
-					len = readlink(ft_strcat(buf, (*list)->fname), buf, PATH_MAX);
-					buf[len] = '\0';
-					ft_printf(OUT_FORMAT_LNK, OUT_ARGS_STD, buf);
-				}
-				else
-				{
-					width[4] == 1 ? width[4] = 0 : 0;
-					ft_printf(OUT_FORMAT_STD, OUT_ARGS_STD);
-				}
-			}
+				long_out(list, path, width);
 			else
-				ft_printf("%s\n", (*list)->fname);
-			free(time);
-			free(perm);
+				ft_printf("%s\n", (*list)->fname);			
 		}
 		list++;
 	}
+}
+
+static void	out_link(t_stat *list, int *width)
+{
+	char	*time;
+	char	*perm;
+	char	buf[PATH_MAX + 1];
+	int		len;
+
+	time = parse_time(list->time);
+	perm = parse_perm(list->perm);
+	len = readlink(list->fname, buf, PATH_MAX);
+	buf[len] = '\0';
+	ft_printf(OUT_FORMAT_LNK, OUT_ARGS_CURR_STD);
+	free(time);
+	free(perm);
 }
 
 void			sort_and_out(t_stat *list, t_flag *flags, char *path, int *width)
 {
 	t_stat	**dir;
 	t_stat	**head;
-	char	*perm;
-	char	*time;
 	char	*temp;
-	char	buf[PATH_MAX + 1];
-	int		len;
 
 	(!*path) ? ft_strcat(path, list->fname) : 0;
-    temp = ft_strnew(PATH_MAX);
+	temp = ft_strnew(PATH_MAX);
 	ft_strcpy(temp, path);
 	if (S_ISLNK(list->perm) && flags->l && path[ft_strlen(path) - 2] != '/')
 	{
-		time = parse_time(list->time);
-		perm = parse_perm(list->perm);
-		width[4] == 1 ? width[4] = 0 : 0;
-		len = readlink(list->fname, buf, PATH_MAX);
-		buf[len] = '\0';
-		ft_printf(OUT_FORMAT_LNK, OUT_ARGS_CURR_STD);
-		free(time);
-		free(perm);
+		out_link(list, width);
 		return ;
 	}
 	dir = read_dir(path, flags);
@@ -132,17 +140,17 @@ void			sort_and_out(t_stat *list, t_flag *flags, char *path, int *width)
 		ft_printf("%s:\n", path);
 	if (!dir)
 	{
-		ft_printf("ft_ls: ");
+		ft_putstr("ft_ls: ");
 		path_err(path);
 		ft_printf(": %s\n", strerror(errno));
 	}
 	read_lengths(width, dir);
 	print_dir(dir, flags, width, path);
-	if (flags->r_mode && list && list++)
-	while (flags->R && dir && *dir)
+	while (flags->rec && dir && *dir)
 	{
 		(temp[ft_strlen(temp) - 1] != '/') ? ft_strcat(temp, "/") : 0;
-		if ((*dir)->fname && S_ISDIR((*dir)->perm) && ft_strcmp((*dir)->fname, ".") && ft_strcmp((*dir)->fname, ".."))
+		if ((*dir)->fname && S_ISDIR((*dir)->perm) && ft_strcmp((*dir)->fname, ".")
+		&& ft_strcmp((*dir)->fname, ".."))
 		{
 			ft_putstr("\n");
 			sort_and_out(*dir, flags, ft_strcat(temp, (*dir)->fname), width);
@@ -157,60 +165,50 @@ void			sort_and_out(t_stat *list, t_flag *flags, char *path, int *width)
 
 void	out_files(t_stat **list, t_flag *flags, int *width, char *path)
 {
-	char	*perm;
-	char	*time;
-	char	buf[PATH_MAX + 1];
-	int		len;
-	_Bool	out;
+	_Bool	dir;
+	_Bool	files;
 
-	out = 0;
+	dir = 0;
+	files = 0;
 	while (list && *list)
 	{
 		if ((*list)->fname)
 		{
 			if (!S_ISDIR((*list)->perm))
 			{
+				files = 1;
 				if (flags->l)
-				{
-					time = parse_time((*list)->time);
-					perm = parse_perm((*list)->perm);
-					if (S_ISCHR((*list)->perm) || S_ISBLK((*list)->perm))
-						ft_printf(OUT_FORMAT_MAJ, OUT_ARGS_MAJ);
-					else
-					{
-						width[4] == 1 ? width[4] = 0 : 0;
-						if (S_ISLNK((*list)->perm))
-						{
-							ft_strcpy(buf, path);
-							ft_strcat(buf, "/");
-							len = readlink(ft_strcat(buf, (*list)->fname), buf, PATH_MAX);
-							buf[len] = '\0';
-							ft_printf(OUT_FORMAT_LNK, OUT_ARGS_STD, buf);
-						}
-						else
-							ft_printf(OUT_FORMAT_STD, OUT_ARGS_STD);
-					}
-					free(time);
-					free(perm);
-				}
+					long_out(list, path, width);
 				else
-				{
 					if (!S_ISLNK((*list)->perm))
 						ft_printf("%s\n", (*list)->fname);
-				}
-				out = 1;
 			}
+			else
+				dir = 1;
 		}
 		list++;
 	}
-	if (out)
+	if (dir && files)
 		ft_putstr("\n");
 }
 
-void	out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode)
+static void	check_last(t_stat **temp)
+{
+	temp++;
+	while (*temp)
+	{
+		if (S_ISDIR((*temp)->perm) || (S_ISLNK((*temp)->perm)))
+		{
+			ft_putstr("\n");
+			break ;
+		}
+		temp++;
+	}
+}
+
+void		out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode)
 {
 	int		*width;
-	t_stat	**temp;
 
 	width = (int *)malloc(sizeof(int) * 5);
 	read_lengths(width, list);
@@ -224,18 +222,8 @@ void	out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode)
 			if (S_ISDIR((*list)->perm) || (S_ISLNK((*list)->perm) && !flags->l))
 			{
 				sort_and_out(*list, flags, ft_strcpy(path, (*list)->fname), width);
+				check_last(list);
 				list++;
-				temp = list;
-				while (*temp)
-				{
-					if (S_ISDIR((*temp)->perm) || (S_ISLNK((*temp)->perm)))
-					{
-						ft_putstr("\n");
-						break ;
-					}
-					temp++;
-				}
-				continue;
 			}
 		}
 		list++;

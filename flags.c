@@ -22,7 +22,7 @@ t_flag	*init_flags(void)
 		exit(1);
 	}
 	tmp->a = 0;
-	tmp->R = 0;
+	tmp->rec = 0;
 	tmp->r = 0;
 	tmp->r_mode = 0;
 	tmp->t = 0;
@@ -41,7 +41,7 @@ void	parse_flags(t_flag *flags, char *arg)
 			flags->a = 1;
 		else if (arg[i] == 'R')
 		{
-			flags->R = 1;
+			flags->rec = 1;
 			flags->r_mode = 1;
 		}
 		else if (arg[i] == 'r')

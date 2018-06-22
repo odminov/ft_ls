@@ -37,7 +37,7 @@ typedef struct	s_flag
 {
 	_Bool		a;
 	_Bool		l;
-	_Bool		R;
+	_Bool		rec;
 	_Bool		r_mode;
 	_Bool		r;
 	_Bool		t;
@@ -58,7 +58,8 @@ int				len_group(t_stat **list);
 int				len_size(t_stat **list);
 int				len_minor(t_stat **list);
 t_stat			**read_current(char *path);
-void			out_result(t_stat **list, t_flag *flags, char *path, _Bool argc_mode);
+void			out_result(t_stat **list, t_flag *flags,
+							char *path, _Bool argc_mode);
 void			free_list(t_stat **list);
 void			buble_sort(t_stat **list, t_flag *flags);
 

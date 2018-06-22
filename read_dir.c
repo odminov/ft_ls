@@ -17,6 +17,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <time.h>
+#define NAME entry->d_name
 
 int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 {
@@ -30,7 +31,7 @@ int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 		return (0);
 	if (!(grp = getgrgid(buf.st_gid)))
 		return (0);
-	curr_dir[idx]->time = buf.st_mtime; //spec.tv_sec;
+	curr_dir[idx]->time = buf.st_mtime;
 	curr_dir[idx]->perm = buf.st_mode;
 	curr_dir[idx]->user = ft_strdup(pass->pw_name);
 	curr_dir[idx]->group = ft_strdup(grp->gr_name);
@@ -38,9 +39,9 @@ int		get_data(char *name, char *path, t_stat **curr_dir, int idx)
 	curr_dir[idx]->size = buf.st_size;
 	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
 	{
-        curr_dir[idx]->size = major(buf.st_rdev);
-        curr_dir[idx]->minor = minor(buf.st_rdev);
-    }
+		curr_dir[idx]->size = major(buf.st_rdev);
+		curr_dir[idx]->minor = minor(buf.st_rdev);
+	}
 	curr_dir[idx]->total = buf.st_blocks;
 	curr_dir[idx]->nlink = buf.st_nlink;
 	return (1);
@@ -63,15 +64,11 @@ t_stat	**read_dir(char *path, t_flag *flags)
 	i = 0;
 	while ((entry = readdir(dir)) != NULL)
 	{
-		if (!flags->a
-		 && entry->d_name[0] == '.')
+		if (!flags->a && NAME[0] == '.')
 			continue;
 		(temp[ft_strlen(temp) - 1] != '/') ? ft_strcat(temp, "/") : 0;
-		if (!(get_data(entry->d_name, ft_strcat(temp, entry->d_name), curr_dir, i)))
-		{
-			ft_printf("path: %s\n", temp);
+		if (!(get_data(NAME, ft_strcat(temp, NAME), curr_dir, i)))
 			return (NULL);
-		}
 		ft_strcpy(temp, path);
 		i++;
 	}
